@@ -15,17 +15,31 @@ namespace GA.Implementations
         public void CalculateDistribuance(Individual[] currentPopulation, out List<double> distribuance)
         {
             var random = RandomProvider.Current;
-            var sumOfFitness = currentPopulation
-                .Sum(x => x.Fitness);
+			/*var sumOfFitness = currentPopulation
+                .Sum(x => x.Fitness);*/
+
+			double sumOfFitness = 0;
+			for(int i = 0; i < currentPopulation.Length; ++i)
+			{
+				sumOfFitness += currentPopulation[i].Fitness;
+			}
 
             double cummulativeFitness = 0;
-            distribuance = currentPopulation
+
+			distribuance = new List<double>();
+			for(int i = 0; i < currentPopulation.Length; ++i)
+			{
+				cummulativeFitness += currentPopulation[i].Fitness / sumOfFitness;
+				distribuance.Add(cummulativeFitness);
+			}
+
+            /*distribuance = currentPopulation
                 .Select(x =>
                 {
                     cummulativeFitness += x.Fitness / sumOfFitness;
                     return cummulativeFitness;
                 })
-                .ToList();
+                .ToList();*/
         }
 
         private Individual SelectCurrentParent(double random, Individual[] currentPopulation, List<double> distribuance)
@@ -56,10 +70,6 @@ namespace GA.Implementations
             List<double> distribuance;
             CalculateDistribuance(currentPopulation, out distribuance);
 
-			/*Stopwatch sw = new Stopwatch();
-
-			sw.Start();*/
-
 			Individual[] individuals = new Individual[currentPopulation.Length];
 
 			/*Task[] tasks = new Task[individuals.Length];
@@ -73,19 +83,15 @@ namespace GA.Implementations
 			foreach (Task task in tasks)
 				task.Wait();*/
 
-			Parallel.For(0, individuals.Length, i =>
+			/*Parallel.For(0, individuals.Length, i =>
 			{
 				individuals[i] = SelectCurrentParent(random.NextDouble(), currentPopulation, distribuance);
-			});
+			});*/
 
-			/*sw.Stop();
-			Console.WriteLine(sw.ElapsedMilliseconds + " ms" + "\t" + sw.ElapsedTicks);
-			Console.ReadLine();*/
-
-			/*for (int i = 0; i < individuals.Length; i++)
+			for (int i = 0; i < individuals.Length; i++)
 			{
 				individuals[i] = SelectCurrentParent(random.NextDouble(), currentPopulation, distribuance);
-			}*/
+			}
 			
 			return individuals;
 

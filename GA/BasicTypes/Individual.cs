@@ -10,7 +10,7 @@ namespace GA.BasicTypes
     public class Individual : ICloneable<Individual>
     {
         public ChromosomeType Chromosome { get; set; }
-        public double Fitness { get; set; }
+		public double Fitness { get; set; }
 
         public Individual()
         {

@@ -11,7 +11,7 @@ namespace GA.BasicTypes
 {
     public class ChromosomeType : ICloneable<ChromosomeType>
     {
-        public int Size { get { return Genes.Count(); } }
+        public int Size { get { return Genes.Length; } }
 
         public bool this[int index]
         {
@@ -29,7 +29,7 @@ namespace GA.BasicTypes
             Genes = new bool[chromosomeSize];
             for (int i = 0; i < Genes.Length; i++)
             {
-                Genes[i] = random.NextBool();
+                Genes[i] = random.NextDouble() < 0.5;
             }
         }
 
