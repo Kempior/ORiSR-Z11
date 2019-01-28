@@ -2,6 +2,7 @@
 using GA.Implementations;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -13,14 +14,16 @@ namespace GA
     {
         static void Main(string[] args)
         {
-            Func<double, double> fitness = x => 2 * x + 1;
-            var ga = new GeneticAlgorithm(6, 10,
+			Stopwatch sw = new Stopwatch();
+			sw.Start();
+			Func<double, double> fitness = x => 2 * x + 1;
+            var ga = new GeneticAlgorithm(300, 100,
                 new OnePointCrossover(),
                 new ClassicMutationOperator(),
                 new RouletteWheelSelection(),
                 fitness);
             //ga.PrintStatistics = true;
-            var result = ga.RunSimulation(500);
+            var result = ga.RunSimulation(2000);
 
             Console.WriteLine($"x = {result.Chromosome.DecodedValue}, f = {result.Fitness}");
 
@@ -28,7 +31,11 @@ namespace GA
             ind.ReplaceGenes(new bool[] { true, true, true, true, true, true, true, true, true, true });
             Console.WriteLine($"x = {ind.Chromosome.DecodedValue}, f = {fitness(ind.Chromosome.DecodedValue)}");
 
-            return;
+			sw.Stop();
+			Console.WriteLine(sw.ElapsedMilliseconds + "ms");
+			//Console.ReadLine();
+
+			return;
 
             var ind1 = new Individual(10);
             var ind2 = new Individual(10);

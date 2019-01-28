@@ -28,9 +28,14 @@ namespace GA.BasicTypes
 
         public void InsertGenes(int insertIndex, bool[] genes)
         {
-            Chromosome.Genes = Chromosome.Genes
+			for(int i = insertIndex; i < Chromosome.Size; ++i)
+			{
+				Chromosome.Genes[i] = genes[i - insertIndex];
+			}
+
+            /*Chromosome.Genes = Chromosome.Genes
                 .Select((x, i) => i < insertIndex ? x : genes[i - insertIndex])
-                .ToArray();
+                .ToArray();*/
         }
 
         public void ReplaceGenes(bool[] genes)

@@ -16,7 +16,14 @@ namespace GA.Implementations
 
             //Console.WriteLine($"Cross point: {crossPoint}");
 
-            var parent1Genome = parent1.Chromosome.Genes
+			for(int i = crossPoint; i < parent1.Chromosome.Size; ++i)
+			{
+				bool tmp = parent1.Chromosome[i];
+				parent1.Chromosome[i] = parent2.Chromosome[i];
+				parent2.Chromosome[i] = tmp;
+			}
+
+            /*var parent1Genome = parent1.Chromosome.Genes
                 .SkipWhile((x, i) => i < crossPoint)
                 .ToArray();
 
@@ -25,7 +32,7 @@ namespace GA.Implementations
                 .ToArray();
 
             parent1.InsertGenes(crossPoint, parent2Genome);
-            parent2.InsertGenes(crossPoint, parent1Genome);
+            parent2.InsertGenes(crossPoint, parent1Genome);*/
         }
     }
 }

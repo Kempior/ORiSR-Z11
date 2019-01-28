@@ -15,7 +15,15 @@ namespace GA.Implementations
         {
             var random = RandomProvider.Current;
 
-            var randomNumbers = individual
+			for(int i = 0; i < individual.Chromosome.Size; ++i)
+			{
+				if(random.NextDouble() <= mutationProbability)
+				{
+					individual.Chromosome[i] = !individual.Chromosome[i];
+				}
+			}
+
+            /*var randomNumbers = individual
                 .Chromosome.Genes
                 .Select(x => random.NextDouble())
                 .ToArray();
@@ -23,7 +31,7 @@ namespace GA.Implementations
             individual.ReplaceGenes(individual
                 .Chromosome.Genes
                 .Zip(randomNumbers, (gene, prob) => prob <= mutationProbability ? !gene : gene)
-                .ToArray());
+                .ToArray());*/
         }
     }
 }

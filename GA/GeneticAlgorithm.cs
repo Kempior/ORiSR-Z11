@@ -50,7 +50,20 @@ namespace GA
             {
                 var parents = _selectionOperator.GenerateParentPopulation(_population);
 
-                for (int j = 0; j < _numberOfIndividuals - 1; j += 2)
+				Parallel.For(0, _numberOfIndividuals / 2, j =>
+				{
+					if (_random.NextDouble() < CrossoverProbability)
+					{
+						int index = j * 2;
+
+						_crossOperator.Crossover(parents[index], parents[index + 1]);
+
+						_mutationOperator.Mutation(parents[index], MutationProbability);
+						_mutationOperator.Mutation(parents[index + 1], MutationProbability);
+					}
+				});
+
+                /*for (int j = 0; j < _numberOfIndividuals - 1; j += 2)
                 {
                     if (_random.NextDouble() < CrossoverProbability)
                     {
@@ -59,7 +72,7 @@ namespace GA
                         _mutationOperator.Mutation(parents[j], MutationProbability);
                         _mutationOperator.Mutation(parents[j + 1], MutationProbability);
                     }
-                }
+                }*/
 
                 _population = parents;
 
