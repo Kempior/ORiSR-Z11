@@ -13,17 +13,21 @@ namespace GA.Implementations
     {
         public void Mutation(Individual individual, double mutationProbability)
         {
-            var random = RandomProvider.Current;
+			// Użycie RandomProvidera znacząco (10-krotnie) spowalnia wykonanie funkcji
+			//var random = RandomProvider.Current;
+			var random = new Random();
 
-			for(int i = 0; i < individual.Chromosome.Size; ++i)
+			// Zamiana tej pętli na Parallel.For() spowalnia program - jedna operacja crossover na całym pokoleniu (przy reszcie sekwencyjnej) spowalnia jej wykonanie do ~40 ms
+			for (int i = 0; i < individual.Chromosome.Size; ++i)
 			{
-				if(random.NextDouble() <= mutationProbability)
+				if (random.NextDouble() <= mutationProbability)
 				{
 					individual.Chromosome[i] = !individual.Chromosome[i];
 				}
 			}
 
-            /*var randomNumbers = individual
+			// O szybkości LINQ nawet nie wspominam
+			/*var randomNumbers = individual
                 .Chromosome.Genes
                 .Select(x => random.NextDouble())
                 .ToArray();
@@ -32,6 +36,6 @@ namespace GA.Implementations
                 .Chromosome.Genes
                 .Zip(randomNumbers, (gene, prob) => prob <= mutationProbability ? !gene : gene)
                 .ToArray());*/
-        }
-    }
+		}
+	}
 }

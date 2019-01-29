@@ -43,23 +43,23 @@ namespace GA.BasicTypes
 
 			return sum;
 
-            /*return Genes
-                .Reverse()
-                .Select((x, i) => (x ? Math.Pow(2, i) : 0))
-                .Sum();*/
-        }
+			//return Genes
+			//	.Reverse()
+			//	.Select((x, i) => (x ? Math.Pow(2, i) : 0))
+			//	.Sum();
+		}
 
         public ChromosomeType Clone()
         {
             var result = new ChromosomeType(Size);
 
 			Array.Copy(this.Genes, result.Genes, Size);
+			
+			//result.Genes = Genes
+			//	.Select(x => x)
+			//	.ToArray();
 
-            /*result.Genes = Genes
-                .Select(x => x)
-                .ToArray();*/
-
-            return result;
+			return result;
         }
 
         object ICloneable.Clone()

@@ -24,21 +24,21 @@ namespace GA.BasicTypes
         public void UpdateFitness(Func<double, double> fitness)
         {
             Fitness = fitness(Chromosome.DecodedValue);
-        }
+		}
 
         public void InsertGenes(int insertIndex, bool[] genes)
         {
-			for(int i = insertIndex; i < Chromosome.Size; ++i)
+			for (int i = insertIndex; i < Chromosome.Size; ++i)
 			{
 				Chromosome.Genes[i] = genes[i - insertIndex];
 			}
 
-            /*Chromosome.Genes = Chromosome.Genes
-                .Select((x, i) => i < insertIndex ? x : genes[i - insertIndex])
-                .ToArray();*/
-        }
+			//Chromosome.Genes = Chromosome.Genes
+			//	.Select((x, i) => i < insertIndex ? x : genes[i - insertIndex])
+			//	.ToArray();
+		}
 
-        public void ReplaceGenes(bool[] genes)
+		public void ReplaceGenes(bool[] genes)
         {
             InsertGenes(0, genes);
         }

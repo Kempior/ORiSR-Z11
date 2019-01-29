@@ -43,13 +43,19 @@ namespace GA
         }
 
         public Individual RunSimulation(int maxNumberOfGenerations)
-        {
-            ResetSimulations();
+		{
+			ResetSimulations();
 
             for (int i = 0; i < maxNumberOfGenerations; i++)
-            {
-                var parents = _selectionOperator.GenerateParentPopulation(_population);
+			{
+				//System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+				//sw.Start();
 
+				var parents = _selectionOperator.GenerateParentPopulation(_population);
+
+				//sw.Stop();
+				//Console.WriteLine(sw.ElapsedMilliseconds);
+				
 				Parallel.For(0, _numberOfIndividuals / 2, j =>
 				{
 					if (_random.NextDouble() < CrossoverProbability)
@@ -63,27 +69,27 @@ namespace GA
 					}
 				});
 
-                /*for (int j = 0; j < _numberOfIndividuals - 1; j += 2)
-                {
-                    if (_random.NextDouble() < CrossoverProbability)
-                    {
-                        _crossOperator.Crossover(parents[j], parents[j + 1]);
+				//for (int j = 0; j < _numberOfIndividuals - 1; j += 2)
+				//{
+				//	if (_random.NextDouble() < CrossoverProbability)
+				//	{
+				//		_crossOperator.Crossover(parents[j], parents[j + 1]);
 
-                        _mutationOperator.Mutation(parents[j], MutationProbability);
-                        _mutationOperator.Mutation(parents[j + 1], MutationProbability);
-                    }
-                }*/
+				//		_mutationOperator.Mutation(parents[j], MutationProbability);
+				//		_mutationOperator.Mutation(parents[j + 1], MutationProbability);
+				//	}
+				//}
 
-                _population = parents;
+				_population = parents;
 
-                UpdateFitness();
+				UpdateFitness();
 
                 if (PrintStatistics)
                 {
                     Console.WriteLine($"Generation: {i}");
                     Console.WriteLine($"The best is: x = {TakeTheBest().Chromosome.DecodedValue}\tf = {TakeTheBest().Fitness}");
                 }
-            }
+			}
 
             return TakeTheBest();
         }
@@ -97,21 +103,25 @@ namespace GA
 
         private void UpdateFitness()
         {
-            foreach (var individual in _population)
-            {
-                individual.UpdateFitness(_fitnessFunction);
-            }
+			Parallel.ForEach(_population, (individual) =>
+			{
+				individual.UpdateFitness(_fitnessFunction);
+			});
+			//foreach (var individual in _population)
+			//{
+			//	individual.UpdateFitness(_fitnessFunction);
+			//}
         }
 
         private void ResetSimulations()
         {
             _population = new Individual[_numberOfIndividuals];
-            for (int i = 0; i < _numberOfIndividuals; i++)
-            {
-                _population[i] = new Individual(_chromosomeSize);
-                _population[i].UpdateFitness(_fitnessFunction);
-            }
-        }
+			for (int i = 0; i < _numberOfIndividuals; i++)
+			{
+				_population[i] = new Individual(_chromosomeSize);
+				_population[i].UpdateFitness(_fitnessFunction);
+			}
+		}
     }
 }
 

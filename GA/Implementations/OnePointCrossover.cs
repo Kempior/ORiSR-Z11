@@ -10,29 +10,30 @@ namespace GA.Implementations
     {
         public void Crossover(Individual parent1, Individual parent2)
         {
-            var random = RandomProvider.Current;
+			// Dzia³a nie wolniej ni¿ lokalnie wygenerowana instancja Random
+			var random = RandomProvider.Current;
 
-            int crossPoint = random.Next(1, parent1.Chromosome.Size - 1);
+			int crossPoint = random.Next(1, parent1.Chromosome.Size - 1);
 
-            //Console.WriteLine($"Cross point: {crossPoint}");
+			//Console.WriteLine($"Cross point: {crossPoint}");
 
-			for(int i = crossPoint; i < parent1.Chromosome.Size; ++i)
+			for (int i = crossPoint; i < parent1.Chromosome.Size; ++i)
 			{
 				bool tmp = parent1.Chromosome[i];
 				parent1.Chromosome[i] = parent2.Chromosome[i];
 				parent2.Chromosome[i] = tmp;
 			}
 
-            /*var parent1Genome = parent1.Chromosome.Genes
-                .SkipWhile((x, i) => i < crossPoint)
-                .ToArray();
+			//var parent1Genome = parent1.Chromosome.Genes
+			//    .SkipWhile((x, i) => i < crossPoint)
+			//    .ToArray();
 
-            var parent2Genome = parent2.Chromosome.Genes
-                .SkipWhile((x, i) => i < crossPoint)
-                .ToArray();
+			//var parent2Genome = parent2.Chromosome.Genes
+			//    .SkipWhile((x, i) => i < crossPoint)
+			//    .ToArray();
 
-            parent1.InsertGenes(crossPoint, parent2Genome);
-            parent2.InsertGenes(crossPoint, parent1Genome);*/
-        }
+			//parent1.InsertGenes(crossPoint, parent2Genome);
+			//parent2.InsertGenes(crossPoint, parent1Genome);
+		}
     }
 }

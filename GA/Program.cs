@@ -16,6 +16,7 @@ namespace GA
         {
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
+
             Func<double, double> fitness = x => 2 * x + 1;
             var ga = new GeneticAlgorithm(1500, 500,
                 new OnePointCrossover(),
@@ -23,19 +24,20 @@ namespace GA
                 new RouletteWheelSelection(),
                 fitness);
             //ga.PrintStatistics = true;
-            var result = ga.RunSimulation(50);
+            var result = ga.RunSimulation(500);
 
             Console.WriteLine($"x = {result.Chromosome.DecodedValue}, f = {result.Fitness}");
 
             var ind = new Individual(10);
-            ind.ReplaceGenes(new bool[] { true, true, true, true, true, true, true, true, true, true });
+			ind.ReplaceGenes(new bool[] { true, true, true, true, true, true, true, true, true, true });
+
             Console.WriteLine($"x = {ind.Chromosome.DecodedValue}, f = {fitness(ind.Chromosome.DecodedValue)}");
 
 			sw.Stop();
 			Console.WriteLine(sw.ElapsedMilliseconds + "ms");
-			//Console.ReadLine();
+			Console.ReadLine();
 
-            return;
+			return;
 
             var ind1 = new Individual(10);
             var ind2 = new Individual(10);

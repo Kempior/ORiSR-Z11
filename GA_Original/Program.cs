@@ -16,14 +16,15 @@ namespace GA
         {
 			Stopwatch sw = new Stopwatch();
 			sw.Start();
+
 			Func<double, double> fitness = x => 2 * x + 1;
-            var ga = new GeneticAlgorithm(300, 100,
+            var ga = new GeneticAlgorithm(1500, 500,
                 new OnePointCrossover(),
                 new ClassicMutationOperator(),
                 new RouletteWheelSelection(),
                 fitness);
             //ga.PrintStatistics = true;
-            var result = ga.RunSimulation(2000);
+            var result = ga.RunSimulation(500);
 
             Console.WriteLine($"x = {result.Chromosome.DecodedValue}, f = {result.Fitness}");
 
